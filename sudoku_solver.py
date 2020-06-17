@@ -19,39 +19,55 @@ def find_empty(grid):
             if(grid[row][col] == 0):
                 return (row, col)
 
-def valid(grid, row, col, val):
+    return None
+
+def valid(grid, pos, val):
     #row
-    for i in range(0,len(grid[row])):
-        if(val == grid[row][i] and col != i):
+    for i in range(0,len(grid[pos[0]])):
+        if(val == grid[pos[0]][i] and pos[1] != i):
             return False
 
     #col
-    for i in range(0,len(grid) and row != i):
-        if(val == grid[i][col]):
+    for i in range(0,len(grid) and pos[0] != i):
+        if(val == grid[i][pos[1]]):
             return False
 
     #box
-    box_x = col / 3
-    box_y = row / 3
+    box_x = pos[1] // 3
+    box_y = pos[0] // 3
 
     for i in range(box_x*3, box_x*3 + 3):
         for j in range(box_y*3, box_y*3 + 3):
-            if(val == grid[i][j] and i != col and j != row):
+            if(val == grid[i][j] and i != pos[1] and j != pos[0]):
                 return False
 
 
 def solve(grid):
-    for row in range(0,len(grid)):
-        for col in range(0,len(grid[0])):
-            if(grid[row][col] == 0):
-                for num in range(1,10):
-                    if(valid(row,col,val)):
-                        grid[row][col] = num
+   
+    find = find_empty(grid)
+    if not find:
+        print_grid(grid)
+        return True
 
+    else:
+        row, col = find
+        
+    for val in range(0,10):
+        if(valid(grid, (row, col), val)):
+            grid[row][col] = val
+
+            if(solve(grid)):
+                return True
+
+            
+            grid[row][col] = 0
+
+    return False
                     
                 
 
 
 print_grid(grid)
-print(find_empty(grid))
+solve(grid)
+
 
