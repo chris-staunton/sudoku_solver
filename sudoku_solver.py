@@ -19,19 +19,25 @@ def find_empty(grid):
             if(grid[row][col] == 0):
                 return (row, col)
 
-def valid(row, col, val):
+def valid(grid, row, col, val):
     #row
     for i in range(0,len(grid[row])):
-        if(val == grid[row][i]):
+        if(val == grid[row][i] and col != i):
             return False
 
     #col
-    for i in range(0,len(grid)):
+    for i in range(0,len(grid) and row != i):
         if(val == grid[i][col]):
             return False
 
     #box
-    for i in range(row-1,row+1)
+    box_x = col / 3
+    box_y = row / 3
+
+    for i in range(box_x*3, box_x*3 + 3):
+        for j in range(box_y*3, box_y*3 + 3):
+            if(val == grid[i][j] and i != col and j != row):
+                return False
 
 
 def solve(grid):
