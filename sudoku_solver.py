@@ -28,19 +28,20 @@ def valid(grid, pos, val):
             return False
 
     #col
-    for i in range(0,len(grid) and pos[0] != i):
-        if(val == grid[i][pos[1]]):
+    for i in range(0,len(grid)):
+        if(val == grid[i][pos[1]] and pos[0] != i):
             return False
 
     #box
-    box_x = pos[1] // 3
-    box_y = pos[0] // 3
+    box_y = pos[1] // 3
+    box_x = pos[0] // 3
 
     for i in range(box_x*3, box_x*3 + 3):
         for j in range(box_y*3, box_y*3 + 3):
-            if(val == grid[i][j] and i != pos[1] and j != pos[0]):
+            if(val == grid[i][j] and (i,j) != pos):
                 return False
 
+    return True
 
 def solve(grid):
    
@@ -52,7 +53,7 @@ def solve(grid):
     else:
         row, col = find
         
-    for val in range(0,10):
+    for val in range(1,10):
         if(valid(grid, (row, col), val)):
             grid[row][col] = val
 
@@ -68,6 +69,7 @@ def solve(grid):
 
 
 print_grid(grid)
+print("--------------------------")
 solve(grid)
 
 
